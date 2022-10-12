@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import db from "./db/db-connection.js";
 import bodyParser from "body-parser";
 import blogs from "./routes/blogs.js";
+import './db/db-connection.js';
 
 
 // set port and listen for requests
@@ -15,9 +15,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // creates an endpoint for the route /api
-app.get('/', (req, res) => {
-  res.json({ message: 'Backend Running' });
-});
+// app.get('/', (req, res) => {
+//   res.json({ message: 'Backend Running' });
+// });
 
 // app.use("/", allRouter);
 app.use("/blogs", blogs);
