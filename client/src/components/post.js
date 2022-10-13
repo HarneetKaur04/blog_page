@@ -22,7 +22,7 @@ const Post = ({img, title, author,date,blog_post, blog_id, onClick }) => {
       <p className="postDesc">
         {blog_post}
       </p>
-      <Link className="link" to="/blogs" >Read More</Link>
+      <button className="postRead" onClick={onClick}>Read More</button>
       </div>
     </div>
   )

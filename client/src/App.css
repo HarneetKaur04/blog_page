@@ -153,6 +153,18 @@
 
 }
 
+.postRead {
+  background: none;
+  border: none;
+  font-size: 15px;
+  font-weight: 900;
+  color: #063b9d;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+}
+
 .postDesc {
   font-family: "Varela Round", Arial, Helvetica, sans-serif;
   font-weight: 400;
@@ -313,4 +325,60 @@
   margin-left: 20px;
   font-size: 30px;
   font-weight: 600;
+}
+
+.write {
+  padding-top: 50px;
+}
+
+.writeImg {
+  margin-left: 150px;
+  width: 70vw;
+  height: 250px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.writeForm {
+  position: relative;
+}
+
+.writeFormGroup {
+  margin-left: 150px;
+  display: block;
+  align-items: center;
+}
+
+.writeInput {
+  font-size: 30px;
+  border: none;
+  padding: 20px;
+  width: 50vw;
+}
+
+/* .writeInput::placeholder {
+  color: rgb(189, 185, 185);
+  font-weight: 400;
+} */
+
+.writeText {
+  width: 70vw;
+  height: 100vh;
+  font-family: inherit;
+  font-size: 20px;
+}
+
+.writeSubmit {
+  position: absolute;
+  top: 30px;
+  right: 50px;
+  color: white;
+  background-color: teal;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }

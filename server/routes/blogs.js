@@ -30,6 +30,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+// delete route for single blog
 router.delete("/:deleteId", async (req, res) => {
     const deleteId= req.params.deleteId;
 
@@ -42,6 +43,18 @@ router.delete("/:deleteId", async (req, res) => {
     return res.status(400).json({ e });
     }
     })
+// post route for new single blog to publish
 
+router.post('/', async (req, res) => {
+    const newBlog = {image: req.body.image, title: req.body.title, author: req.body.author, date: req.body.date, blog_post: req.body.blog_post, favorite: req.body.favorite}
+    console.log("Checking newBlog at backend" ,[newBlog.image, newBlog.title, newBlog.author, newBlog.date, newBlog.blog_post, newBlog.favorite]);
+  
+    const result = await db.query(
+      'INSERT INTO blogs(image, title, author, date, blog_post, favorite) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
+      [newBlog.image, newBlog.title, newBlog.author, newBlog.date, newBlog.blog_post, newBlog.favorite],
+    );
+    console.log("Checking newBlog posted at database", result);
+    res.json(result);
+  });
 
 export default router;

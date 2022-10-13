@@ -32,17 +32,7 @@ const Posts = ({displaySinglePostOrNot}) => {
 console.log("singlePost", singlePost)
 
     
-    const handleDelete = async(blog_id) => {
-        // const deleteId = selectedToDelete.blog_id
-      console.log("check deleteId", blog_id)
-      await fetch(`http://localhost:5000/blogs/${blog_id}`, {method: "DELETE"})
-      .then((response) => response.json())
-      .then((data) => {
-          console.log("Delete Request Complete frontend", data);
-          navigate('/')
-          window.location.reload()
-    })
-    }
+
 
 console.log("singlePost", singlePost)
 
