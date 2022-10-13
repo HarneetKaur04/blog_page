@@ -2,6 +2,7 @@ import pgPromise from "pg-promise";
 import { config } from "dotenv";
 config();
 
+
 console.log("check" , process.env.DB_URL)
 
 const pgp = pgPromise();
