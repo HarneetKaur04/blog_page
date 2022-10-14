@@ -254,7 +254,7 @@
   margin: 20px;
 }
 
-.home {
+.home, .favoritepage {
   display: flex;
 }
 
@@ -295,11 +295,40 @@
   cursor: pointer;
 }
 
-.singlePostIcon:first-child {
+.singlePostIcon:odd-child {
   color: teal;
 }
 .singlePostIcon:last-child {
   color: tomato;
+}
+
+.singlePostIcon.fa-regular.fa-heart{
+  color: red;
+  /* background-color: currentColor; */
+}
+
+/* .singlePostIcon.fa-regular.fa-heart::before,
+.singlePostIcon.fa-regular.fa-heart::after {
+  content: "";
+  background-color: currentColor;
+  border-radius: 50%;
+  height: 50px;
+  position: absolute;
+  width: 50px;
+} */
+
+.singlePostIcon.fa-regular.fa-heart:before {
+  top: -25px;
+  left: 0;
+}
+
+.singlePostIcon.fa-regular.fa-heart:after {
+  left: 25px;
+  top: 0;
+}
+
+.singlePostIcon.fa-regular.fa-heart:focus {
+  color: black;
 }
 
 .singlePostInfo {

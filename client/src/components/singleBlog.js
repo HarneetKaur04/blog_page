@@ -1,13 +1,20 @@
-import React, {useEffect, useState} from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import React, {useState} from 'react'
+import { useNavigate, useLocation } from 'react-router-dom';
+import moment from 'moment';
 
 const SingleBlog = () => {
+    var formatDate= new Date();
+    var responseDate = moment(formatDate).format('YYMMDD');
     const navigate = useNavigate();
     const {state} = useLocation();
     console.log("state", state)
 
+    const [editPost, setEditPost] = useState(false)
+    const [editBlogFields, setEditBlogFields] = useState(state)
+    const [clickedSave, setClickedSave] = useState(false)
+
+
     const handleDelete = async(deleteId) => {
-        // const deleteId = selectedToDelete.blog_id
       console.log("check deleteId", deleteId)
       await fetch(`http://localhost:5000/blogs/${deleteId}`, {method: "DELETE"})
       .then((response) => response.json())
@@ -15,39 +22,144 @@ const SingleBlog = () => {
           console.log("Delete Request Complete frontend", data);
           alert("Successfully Deleted")
           navigate('/')
-        //   window.location.reload()
     })
     }
 
+    const handleEditClick = (editBlog)=> { 
+        console.log("editContact Details = ", editBlog)
+        setEditPost(true) 
+     }
+
+     const handleFormInputToAddBlog = (e) => {
+        setEditBlogFields((preValues) => ({
+            ...preValues,
+            [e.target.name]: e.target.value
+          }));
+    }
+
+
+     const handleEditedBlog = async (e) => {
+        e.preventDefault()
+        console.log("check who is being updated", editBlogFields)
+        const updateBlogId = editBlogFields.blog_id;
+        return await fetch(`http://localhost:5000/blogs/${updateBlogId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editBlogFields),
+        })
+        .then((response) => {return response.json();
+        })
+        .then((data) => {
+            console.log("From the PUT request", data);
+            setEditPost(false)
+            setEditBlogFields(data[0])
+        })
+
+     }
+
+     const handleLike = async (likedId) => {
+        setClickedSave(!clickedSave)
+        console.log("likedButtonDetails = ", likedId)
+        const id = likedId.blog_id
+        return await fetch(`http://localhost:5000/favorites/${id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(likedId),
+        })
+        .then((response) => {return response.json();
+        })
+        .then((data) => {
+            console.log("From the post request", data);
+            navigate('/favorite')
+        })
+     }
+     console.log("editBlogFields", editBlogFields)
+
   return (
     <>
-    <div className="singlePost">
+{!editPost ?  (
+  <div className="singlePost">
     <div className="singlePostWrapper">
       <img
         className="singlePostImg"
-        src={state.image}
-        alt={state.blog_id}
+        src={editBlogFields.image}
+        alt={editBlogFields.blog_id}
       />
       <h1 className="singlePostTitle">
-      {state.title}
+      {editBlogFields.title}
         <div className="singlePostEdit">
-          <i className="singlePostIcon far fa-edit"></i>
-          <i className="singlePostIcon far fa-trash-alt" onClick={()=> handleDelete (state.blog_id)}></i>
+          <i className="singlePostIcon fa-regular fa-heart" onClick={()=> handleLike(editBlogFields)}>{editBlogFields.favorite === true? "Unsave" : "Save"}</i>
+          <i className="singlePostIcon far fa-edit" onClick={()=> handleEditClick(editBlogFields)}></i>
+          <i className="singlePostIcon far fa-trash-alt" onClick={()=> handleDelete(editBlogFields.blog_id)}></i>
         </div>
       </h1>
       <div className="singlePostInfo">
         <span>
-          Author:{state.author}
+          Author:{editBlogFields.author}
           <b className="singlePostAuthor">
           </b>
         </span>
-        <span>{state.date}</span>
+        <span>{editBlogFields.date}</span>
       </div>
       <p className="singlePostDesc">
-        {state.blog_post}
+        {editBlogFields.blog_post}
       </p>
     </div>
-  </div>
+  </div>) :
+  ( <div className="write" >
+      <img
+        className="writeImg"
+        src={editBlogFields.image}
+        alt={editBlogFields.blog_id}
+      />
+      <form className="writeForm" onSubmit={handleEditedBlog} >
+        <div className="writeFormGroup">
+          <label htmlFor="fileInput">
+          </label>
+          <input 
+            id="fileInput" 
+            type="file"  
+            name="image" 
+            onChange={handleFormInputToAddBlog}
+           />
+          <input
+            className="writeInput"
+            placeholder="Title"
+            type="text"
+            name="title"
+            autoFocus={true}
+            value={editBlogFields.title}
+            required
+            onChange={handleFormInputToAddBlog}
+          />
+          <input
+            className="writeInput"
+            placeholder="Author"
+            type="text"
+            name="author"
+            value={editBlogFields.author}
+            required
+            onChange={handleFormInputToAddBlog}
+          />
+        </div>
+        <div className="writeFormGroup">
+          <textarea
+            className="writeInput writeText"
+            placeholder="Tell your story..."
+            type="text"
+            name="blog_post"
+            value={editBlogFields.blog_post}
+            required
+            onChange={handleFormInputToAddBlog}
+          />
+        </div>
+        <button className="writeSubmit" type="submit">
+          Save
+        </button>
+      </form>
+    </div>
+  )
+}
     </>
   )
 }

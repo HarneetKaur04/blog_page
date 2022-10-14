@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import Post from './post'
 import SingleBlog from './singleBlog';
 
-const Posts = ({displaySinglePostOrNot}) => {
+const Posts = ({displaySinglePostOrNot, heading, favPostData}) => {
+    console.log("favPostData", favPostData)
     const navigate = useNavigate();
     const [blogsData, setBlogsData] = useState([])
     const [singlePost, setSinglePost] = useState([])
@@ -38,16 +39,18 @@ console.log("singlePost", singlePost)
 
   return (
     <>
-        <h2>Recent Blogs</h2>
+        <h2>{heading ? heading : "Recent Blogs"}</h2>
         <div className='posts'>
-        {blogsData.map((item)=> (
-            <Post img ={item.image} title= {item.title} author={item.author} date= {item.date} blog_post={item.blog_post} blog_id={item.blog_id} onClick={()=> handleClick(item)}/>
-        ))}  
+            {favPostData? (favPostData.map((item)=> (
+                <Post img ={item.image} title= {item.title} author={item.author} date= {item.date} blog_post={item.blog_post} blog_id={item.blog_id} onClick={()=> handleClick(item)}/>
+            ))):
+            (blogsData.map((item)=> (
+                <Post img ={item.image} title= {item.title} author={item.author} date= {item.date} blog_post={item.blog_post} blog_id={item.blog_id} onClick={()=> handleClick(item)}/>
+            )) )
+             }
+        
         
         </div>
-        {/* {clicked? (<SingleBlog singlePost={singlePost} clicked={clicked}/>) : null} */}
-        
-        {/* <SingleBlog singlePost={singlePost} setSinglePost={setSinglePost} handleDelete={handleDelete}/> */}
      </>
   )
 }

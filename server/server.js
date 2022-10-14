@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import blogs from "./routes/blogs.js";
+import favorites from "./routes/favorite.js";
 import './db/db-connection.js';
 
 
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 
 // app.use("/", allRouter);
 app.use("/blogs", blogs);
+app.use("/favorites", favorites);
 
 
 // console.log that your server is up and running

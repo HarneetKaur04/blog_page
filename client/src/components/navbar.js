@@ -26,7 +26,11 @@ const Navbar= () =>{
               WRITE
             </Link>
           </li>
-          <li className="topListItem">CONTACT</li>
+          <li className="topListItem">
+          <Link className="link" to="/favorite">
+            FAVORITE
+          </Link>
+          </li>
         </ul>
       </div>
       <div className="topRight">

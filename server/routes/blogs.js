@@ -57,4 +57,37 @@ router.post('/', async (req, res) => {
     res.json(result);
   });
 
+  //Put route to edit a single blog
+
+  router.put("/:updateBlogId", async (req, res) => {
+    const editedBlog = {
+      blog_id: req.params.updateBlogId,
+      image: req.body.image,
+      title: req.body.title,
+      author: req.body.author,
+      blog_post: req.body.blog_post,
+      favorite: req.body.favorite === true ? true : false,
+    };
+
+    console.log("editedBlog", editedBlog)
+    
+    try {
+      const result= await db.query(
+        "UPDATE blogs SET image=$1, title=$2, author=$3, blog_post=$4, favorite=$5 WHERE blog_id=$6 RETURNING *",
+        [
+        editedBlog.image,
+        editedBlog.title,
+        editedBlog.author,
+        editedBlog.blog_post,
+        editedBlog.favorite,
+        editedBlog.blog_id,
+        ]
+      );
+      console.log(result)
+      res.send(result);
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({ e });
+    }
+  });
 export default router;
